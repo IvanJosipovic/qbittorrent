@@ -1,0 +1,34 @@
+name: CI/CD
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+    
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Login to Docker Registry
+      run: docker login --username ivanjosipovic --password ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Docker Build
+      run: docker build -t qbittorrent .
+
+    - name: Docker Tag
+      if: github.ref != 'refs/heads/master'
+      run: docker tag qbittorrent index.docker.io/ivanjosipovic/qbittorrent:${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}
+
+    - name: Docker Push
+      if: github.ref != 'refs/heads/master'
+      run: docker push index.docker.io/ivanjosipovic/qbittorrent:${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER}
+
+    - name: Docker Tag
+      if: github.ref == 'refs/heads/master'
+      run: docker tag qbittorrent index.docker.io/ivanjosipovic/qbittorrent:${GITHUB_RUN_NUMBER}
+
+    - name: Docker Push
+      if: github.ref == 'refs/heads/master'
+      run: docker push index.docker.io/ivanjosipovic/qbittorrent:${GITHUB_RUN_NUMBER}

@@ -38,7 +38,7 @@ The following table lists the configurable parameters for the qBittorrent chart 
 |             Parameter                |              Description                  |               Default               |
 |--------------------------------------|-------------------------------------------|-------------------------------------|
 | `image.registry`                     | Container registry                        | `docker.io`                         |
-| `image.repository`                   | Container image to use                    | `tranchung/qbittorent`              |
+| `image.repository`                   | Container image to use                    | `ivanjosipovic/qbittorent`          |
 | `image.tag`                          | Container image tag to deploy             | `v1.0.0`                            |
 | `image.pullPolicy`                   | Container pull policy                     | `IfNotPresent`                      |
 | `vpn.enabled`                        | Enable VPN support                        | `false`                             |
@@ -47,6 +47,7 @@ The following table lists the configurable parameters for the qBittorrent chart 
 | `vpn.provider`                       | VPN provider (Only PIA is supported)      | `pia`                               |
 | `vpn.host`                           | VPN host                                  | `us-east.privateinternetaccess.com` |
 | `vpn.port`                           | VPN port                                  | `1198`                              |
+| `vpn.portForward`                    | Enable VPN port forwarding                | `yes`                               |
 | `vpn.lanNetwork`                     | Local host network                        | `10.0.0.0/8`                        |
 | `uiPort`                             | qBittorent UI port                        | `8080`                              |
 | `service.type`                       | Service type                              | `ClusterIP`                         |
@@ -55,7 +56,7 @@ The following table lists the configurable parameters for the qBittorrent chart 
 | `service.nodePort`                   | Node port if `type=NodePort`              | `""`                                |
 | `service.externalTrafficPolicy`      | External traffic policy                   | `Cluster`                           |
 | `service.annotations`                | Service annotations                       | `{}`                                |
-| `persistence.data.enabled`           | Data persistent for qBittorrent settings   | `true`                              |
+| `persistence.data.enabled`           | Data persistent for qBittorrent settings  | `true`                              |
 | `persistence.data.accessMode`        | Data volume access mode                   | `ReadWriteOnce`                     |
 | `persistence.data.size`              | Data volume size                          | `128Mi`                             |
 | `persistence.data.storageClass`      | Data volume storage class                 | `""`                                |

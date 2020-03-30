@@ -15,16 +15,9 @@ done
 
 echo "[info] WebUI port defined as ${WEBUI_PORT}" | ts '%Y-%m-%d %H:%M:%.S'
 
-# strip whitespace from start and end of LAN_NETWORK
-export LAN_NETWORK=$(echo "${LAN_NETWORK}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
-echo "[info] LAN Network defined as ${LAN_NETWORK}" | ts '%Y-%m-%d %H:%M:%.S'
-
 # get default gateway of interfaces as looping through them
 DEFAULT_GATEWAY=$(ip -4 route list 0/0 | cut -d ' ' -f 3)
 echo "[info] Default gateway defined as ${DEFAULT_GATEWAY}" | ts '%Y-%m-%d %H:%M:%.S'
-
-#echo "[info] Adding ${LAN_NETWORK} as route via docker eth0" | ts '%Y-%m-%d %H:%M:%.S'
-ip route add "${LAN_NETWORK}" via "${DEFAULT_GATEWAY}" dev eth0
 
 echo "[info] ip route defined as follows..." | ts '%Y-%m-%d %H:%M:%.S'
 echo "--------------------"
@@ -107,15 +100,6 @@ else
 	iptables -A INPUT -i eth0 -p tcp --sport ${WEBUI_PORT} -j ACCEPT
 fi
 
-# accept input to qbittorrent daemon port - used for lan access
-if [ -z "${INCOMING_PORT}" ]; then
-	iptables -A INPUT -i eth0 -s "${LAN_NETWORK}" -p tcp --dport 8999 -j ACCEPT
-else
-	iptables -A INPUT -i eth0 -s "${LAN_NETWORK}" -p tcp --dport ${INCOMING_PORT} -j ACCEPT
-fi
-	
-
-
 # accept input icmp (ping)
 iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
 
@@ -161,14 +145,6 @@ if [ -z "${WEBUI_PORT}" ]; then
 else
 	iptables -A OUTPUT -o eth0 -p tcp --dport ${WEBUI_PORT} -j ACCEPT
 	iptables -A OUTPUT -o eth0 -p tcp --sport ${WEBUI_PORT} -j ACCEPT
-fi
-
-# accept output to qBittorrent daemon port - used for lan access
-if [ -z "${INCOMING_PORT}" ]; then
-	iptables -A OUTPUT -o eth0 -d "${LAN_NETWORK}" -p tcp --sport 8999 -j ACCEPT
-else
-	echo "[info] Incoming connections port defined as ${INCOMING_PORT}" | ts '%Y-%m-%d %H:%M:%.S'
-	iptables -A OUTPUT -o eth0 -d "${LAN_NETWORK}" -p tcp --sport ${INCOMING_PORT} -j ACCEPT
 fi
 
 # accept output for icmp (ping)

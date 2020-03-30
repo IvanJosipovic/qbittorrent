@@ -17,8 +17,8 @@
 #
 image:
   registry: docker.io
-  repository: tranchung/qbittorrent
-  tag: v1.0.0
+  repository: ivanjosipovic/qbittorrent
+  tag: latest
   # Specify a imagePullPolicy
   # Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   # ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -90,12 +90,22 @@ vpn:
   # US West: us-west.privateinternetaccess.com 1198
 
   # List of hosts and port can be found in https://www.privateinternetaccess.com/openvpn/openvpn.zip
-  host: us-east.privateinternetaccess.com
+  host: ca-toronto.privateinternetaccess.com
   port: 1198
-  
-  # LAN subnet that includes all worker nodes' podCIDR. Leave as default would work in most cases.
-  # # LAN_NETWORK environment variable
-  lanNetwork: "10.0.0.0/8"
+  # Enables Port Forwarding https://www.privateinternetaccess.com/helpdesk/kb/articles/how-do-i-enable-port-forwarding-on-my-vpn
+  # CA Toronto
+  # CA Montreal
+  # CA Vancouver
+  # Czech Republic
+  # DE Berlin
+  # DE Frankfurt
+  # France
+  # Israel
+  # Romania
+  # Spain
+  # Switzerland
+  # Sweden
+  portForward: true
 
 # Port qBittorrent UI listens on
 # ref: https://github.com/trankchung/qbittorrent/tree/master/docker#environment-variables
@@ -132,12 +142,20 @@ persistence:
     accessMode: ReadWriteOnce
     size: 128Mi
     # storageClass: ""
+    # Optionally specify claimName to manually override the PVC to be used for
+    # the data directory. If claimName is specified, storageClass and size
+    # are ignored.
+    ## claimName: ""
   # Stores the downloaded torrents
   downloads:
     enabled: true
     accessMode: ReadWriteOnce
     size: 10Gi
     # storageClass: ""
+    # Optionally specify claimName to manually override the PVC to be used for
+    # the data directory. If claimName is specified, storageClass and size
+    # are ignored.
+    ## claimName: ""
 
 # Configure the ingress resource that allows you to access the
 # ref: http://kubernetes.io/docs/user-guide/ingress/

@@ -3,7 +3,6 @@
 # Version 1.8
 
 FROM ubuntu:18.04
-MAINTAINER MarkusMcNugen
 
 VOLUME /downloads
 VOLUME /config
@@ -25,10 +24,11 @@ RUN apt-get update \
 ADD openvpn/ /etc/openvpn/
 ADD qbittorrent/ /etc/qbittorrent/
 
+ADD https://privateinternetaccess.com/installer/port_forwarding.sh /etc/openvpn/port_forwarding.sh
+
 RUN chmod +x /etc/qbittorrent/*.sh /etc/qbittorrent/*.init /etc/openvpn/*.sh
 
 # Expose ports and run
 EXPOSE 8080
-EXPOSE 8999
-EXPOSE 8999/udp
+
 CMD ["/bin/bash", "/etc/openvpn/start.sh"]

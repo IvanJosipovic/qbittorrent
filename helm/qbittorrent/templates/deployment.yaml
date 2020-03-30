@@ -42,12 +42,16 @@ spec:
         {{- else }}
           value: "no"
         {{- end }}
+        - name: PORT_FORWARD
+        {{- if .Values.vpn.portForward }}
+          value: "yes"
+        {{- else }}
+          value: "no"
+        {{- end }}        
         - name: VPN_USERNAME
           value: {{ .Values.vpn.username | quote }}
         - name: VPN_PASSWORD
           value: {{ .Values.vpn.password | quote }}
-        - name: LAN_NETWORK
-          value: {{ default "10.0.0.0/8" .Values.vpn.lanNetwork | quote }}
         {{- range $key, $value := .Values.extraEnvVars }}
         - name: {{ $key }}
           value: {{ $value | quote }}
@@ -56,12 +60,6 @@ spec:
         - containerPort: {{ .Values.uiPort }}
           name: http
           protocol: TCP
-        - containerPort: 8999
-          name: transport-tcp
-          protocol: TCP
-        - containerPort: 8999
-          name: transport-udp
-          protocol: UDP
         volumeMounts:
         - name: qb-data
           mountPath: /config/qBittorrent
@@ -96,14 +94,22 @@ spec:
       - name: qb-data
       {{- if .Values.persistence.data.enabled }}
         persistentVolumeClaim:
-          claimName: {{ template "qbittorrent.fullname" . }}-data
+      {{- if .Values.persistence.data.claimName }}
+          claimName: "{{ .Values.persistence.data.claimName }}"
+      {{- else }}
+          claimName: "{{ template "qbittorrent.fullname" . }}-data"
+      {{- end }}
       {{- else }}
         emptyDir: {}
       {{- end }}
       - name: qb-downloads
       {{- if .Values.persistence.downloads.enabled }}
         persistentVolumeClaim:
-          claimName: {{ template "qbittorrent.fullname" . }}-downloads
+      {{- if .Values.persistence.downloads.claimName }}
+          claimName: "{{ .Values.persistence.downloads.claimName }}"
+      {{- else }}
+          claimName: "{{ template "qbittorrent.fullname" . }}-downloads"
+      {{- end }}
       {{- else }}
         emptyDir: {}
       {{- end }}
