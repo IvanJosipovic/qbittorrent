@@ -25,6 +25,7 @@ jobs:
       if: github.ref != 'refs/heads/master'
       run: docker push index.docker.io/ivanjosipovic/qbittorrent:${GITHUB_REF##*/}-v${GITHUB_RUN_NUMBER}
 
+
     - name: Docker Tag
       if: github.ref == 'refs/heads/master'
       run: docker tag qbittorrent index.docker.io/ivanjosipovic/qbittorrent:v${GITHUB_RUN_NUMBER}
@@ -32,3 +33,11 @@ jobs:
     - name: Docker Push
       if: github.ref == 'refs/heads/master'
       run: docker push index.docker.io/ivanjosipovic/qbittorrent:v${GITHUB_RUN_NUMBER}
+
+    - name: Docker Tag
+      if: github.ref == 'refs/heads/master'
+      run: docker tag qbittorrent index.docker.io/ivanjosipovic/qbittorrent:latest
+
+    - name: Docker Push
+      if: github.ref == 'refs/heads/master'
+      run: docker push index.docker.io/ivanjosipovic/qbittorrent:latest
