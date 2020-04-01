@@ -88,8 +88,8 @@ spec:
       dnsPolicy: None
       dnsConfig:
         nameservers:
-        - 8.8.8.8
-        - 8.8.4.4
+        - 1.1.1.1
+        - 1.0.0.1
       volumes:
       - name: qb-data
       {{- if .Values.persistence.data.enabled }}

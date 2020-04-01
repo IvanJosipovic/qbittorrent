@@ -1,11 +1,10 @@
 apiVersion: v1
 description: A Helm chart for qBittorentt with OpenVPN
 name: qbittorrent
-version: 1.1.0
+version: 1.1.1
 appVersion: 4.1.9.99
 home: https://github.com/IvanJosipovic/qbittorrent.git
 sources:
   - https://github.com/IvanJosipovic/qbittorrent
 maintainers:
   - name: Ivan Josipovic
-
