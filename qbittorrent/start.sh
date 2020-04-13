@@ -7,6 +7,7 @@ else
 fi
 
 if [[ ! -e /config/qBittorrent/config/qBittorrent.conf ]]; then
+	echo "Setting default configuration"
 	/bin/cp /etc/qbittorrent/qBittorrent.conf /config/qBittorrent/config/qBittorrent.conf
 	chmod 755 /config/qBittorrent/config/qBittorrent.conf
 fi
