@@ -16,8 +16,8 @@
 # ref: https://hub.docker.com/r/tranchung/qbittorrentvpn/tags
 #
 image:
-  registry: docker.io
-  repository: ivanjosipovic/qbittorrent
+  registry: docker.pkg.github.com
+  repository: ivanjosipovic/qbittorrent/qbittorrent
   tag: latest
   # Specify a imagePullPolicy
   # Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
