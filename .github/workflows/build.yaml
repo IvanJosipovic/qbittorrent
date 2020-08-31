@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@master
 
     - name: Docker Build Tag Push
-    - run: |
+      run: |
         IMAGE_NAME="docker.pkg.github.com/${GITHUB_REPOSITORY}/qbittorrent:${GITHUB_REF##*/}-v${GITHUB_RUN_NUMBER}"
         echo "${{ github.token }}" | docker login https://docker.pkg.github.com -u ${GITHUB_ACTOR} --password-stdin
         docker build -t $IMAGE_NAME .
